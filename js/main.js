@@ -1,5 +1,5 @@
 const initApp = () => {
-    const ptArray = pascalsTriangle(8);
+    const ptArray = pascalsTriangle(16);
     domTriangle(ptArray);
 }
 
@@ -7,26 +7,25 @@ document.addEventListener("DOMContentLoaded", initApp);
 
 const pascalsTriangle = (rows = 3) => {
     if (rows < 3) rows = 3;
-    const stackArray = [];
-    let i = 1;
-    while (i <= rows) {
+    const stackArray = [
+        [1]
+    ];
+    let n = 1;
+    while (n < rows) {
 
         const rowArray = [];
-        let x = 0;
+        let k = 0;
         let rowValue;
-        while (x < i) {
-            if (!x || x === i - 1) { rowValue = 1 }
-            else {
-                rowValue =
-                    stackArray[i - 2][x] +
-                    stackArray[i - 2][x - 1];
-            }
+        while (k <= n) {
+            rowValue =
+                (stackArray[n - 1][k]??0) +
+                (stackArray[n - 1][k - 1]??0);
             rowArray.push(rowValue);
-            x++;
+            k++;
         }
         console.log(rowArray);
         stackArray.push(rowArray);
-        i++;
+        n++;
     }
     console.log(stackArray);
     return stackArray;
@@ -48,6 +47,9 @@ const buildRow = (array) => {
         const square = document.createElement('div');
         square.classList.add("square");
         square.textContent = el;
+        if(el % 2){
+            square.classList.add("odd");
+        }
         row.appendChild(square);
     })
     return row;
